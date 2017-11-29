@@ -1028,7 +1028,7 @@ def bot(op):
 							cl.sendText(msg.to,"done")
 						else:
 							cl.sendText(msg.to,"è¦�äº†å…³æ–­ã€‚")
-            elif msg.text in ["Set view"]:
+            elif msg.text in ["Set"]:
 			  if msg.from_ in admin:	
 				md = ""
 				if wait["Protectjoin"] == True: md+="􀔃􀆑lock􏿿  Block Join\n"
@@ -1546,7 +1546,7 @@ def bot(op):
 				else:
 					cl.sendText(msg.to,"He declined all invitations")
 
-            elif "Poto grup","Foto grup" in msg.text.lower():            
+            elif "Foto grup" in msg.text.lower():            
 				print "[command]steal executing"
 				group = cl.getGroup(msg.to)
 				path = "http://dl.profile.line-cdn.net/" + group.pictureStatus
