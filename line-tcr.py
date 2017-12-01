@@ -661,7 +661,16 @@ def bot(op):
 						cl.sendText(msg.to,"Bot leaving the group.")
                     except:
 						cl.sendText(msg.to,"Bot has left the group.")
-            elif msg.text in ["Bot?"]:
+
+           elif "Spam " in msg.text:
+             if msg.from_ in admin:
+               bctxt = msg.text.replace("Spam ", "")
+               t = cl.getAllContactIds()
+               t = 999
+                while(t):
+                cl.sendText(msg.to, (bctxt))                   t-=1
+				
+           elif msg.text in ["Bot?"]:
                 msg.contentType = 13
                 msg.contentMetadata = {'mid': mid}
                 cl.sendMessage(msg)
@@ -682,6 +691,132 @@ def bot(op):
                 cl.sendText(msg.to, "Created By: IrfanSyah")
                 msg.contentMetadata = {'mid': 'u058847508e830eeb033add6716e3731b'}
                 cl.sendMessage(msg)
+		
+		 #-------------mmc-------------------#           
+            elif msg.from_ in mimic["target"] and mimic["status"] == True and mimic["target"][msg.from_] == True:
+             text = msg.text
+             if text is not None:
+              cl.sendText(msg.to,text)
+             else:
+              if msg.contentType == 7:
+               msg.contentType = 7
+               msg.text = None
+               msg.contentMetadata = {
+                      "STKID": "6",
+                      "STKPKGID": "1",
+                      "STKVER": "100" }
+               cl.sendMessage(msg)
+              elif msg.contentType == 13:
+               msg.contentType = 13
+               msg.contentMetadata = {'mid': msg.contentMetadata["mid"]}
+               cl.sendMessage(msg)
+            elif "Mimic:" in msg.text:
+             if msg.from_ in admin:
+              cmd = msg.text.replace("Mimic:","")
+              if cmd == "Mimic on":
+               if mimic["status"] == False:
+                mimic["status"] = True
+                cl.sendText(msg.to,"Mimic on")
+               else:
+                cl.sendText(msg.to,"Mimic already on")
+              elif cmd == "Mimic off":
+               if mimic["status"] == True:
+                mimic["status"] = False
+                cl.sendText(msg.to,"Mimic off")
+               else:
+                cl.sendText(msg.to,"Mimic already off")
+		
+              elif "add:" in cmd:
+               target0 = msg.text.replace("Mimic:add:","")
+               target1 = target0.lstrip()
+               target2 = target1.replace("@","")
+               target3 = target2.rstrip()
+               _name = target3
+               gInfo = cl.getGroup(msg.to)
+               targets = []
+               for a in gInfo.members:
+                if _name == a.displayName:
+                 targets.append(a.mid)
+               if targets == []:
+                cl.sendText(msg.to,"No targets")
+               else:
+                for target in targets:
+                 try:
+                  mimic["target"][target] = True
+                  cl.sendText(msg.to,"Success added target")
+                  #cl.sendMessageWithMention(msg.to,target)
+                  break
+                 except:
+                  cl.sendText(msg.to,"Failed")
+                  break
+			
+              elif "del:" in cmd:
+               target0 = msg.text.replace("Mimic:del:","")
+               target1 = target0.lstrip()
+               target2 = target1.replace("@","")
+               target3 = target2.rstrip()
+               _name = target3
+               gInfo = cl.getGroup(msg.to)
+               targets = []
+               for a in gInfo.members:
+                if _name == a.displayName:
+                 targets.append(a.mid)
+               if targets == []:
+                cl.sendText(msg.to,"No targets")
+             else:
+                for target in targets:
+                 try:
+                  del mimic["target"][target]
+                  cl.sendText(msg.to,"Success deleted target")
+                  #cl.sendMessageWithMention(msg.to,target)
+                  break
+                 except:
+                  cl.sendText(msg.to,"Failed!")
+                  break
+			
+           elif "@Irfansyaahh " in msg.text:
+                tanya = msg.text.replace("@Irfansyaahh ","")
+                jawab = ("Jgn Tag Si Irfan !!","Berisik jgn tag si Namalu dia masih tidur")
+                jawaban = random.choice(jawab)
+                cl.sendText(msg.to,jawaban)
+		
+            elif "Copy @" in msg.text:
+            	print "Clone succes"
+            	if msg.toType == 2:
+            	    if msg.from_ in admin:
+            	        _name = msg.text.replace("Copy @","")
+                        _nametarget = name.rstrip(" ")
+                        gs = cl.getGroup(msg.to)
+                        gs = ki.getGroup(msg.to)
+                        targets = []
+          
+                        if _nametarget == g.displayName:
+                                 targets.append(g.mid)
+                        if targets == []:
+                            ki.sendText(msg.to,"Contact not found"
+
+elif "Image " in msg.text.lower():
+               try:
+                 page = msg.text.lower.replace("Image ",'')
+                 headers = {}
+                 headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17'
+                 req = urllib2.Request(url, headers = headers)
+                 response = urllib2.urlopen(req)
+                 page = response.read()
+                 cl.sendImageWithURL(msg.to, page)
+                 return page
+               except:
+                 return"Page Not found"  		
+
+elif "Music" in msg.text.lower():
+	songname=msg.text.lower().replace("Music",'')
+	params={'songname': songname}
+	r=requests.get('https://ide.fdlrcn.com/workspace/yumi-apis/joox?' + urllib.urlencode(params))
+	data=r.text
+	data=json.loads(data)
+	for song in data:
+		cl.sendMessage(msg.to, song[4])
+		
             elif msg.text in ["Me"]:
                 msg.contentType = 13
                 msg.contentMetadata = {'mid': msg.from_}
