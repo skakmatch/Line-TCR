@@ -1028,7 +1028,7 @@ def bot(op):
 							cl.sendText(msg.to,"done")
 						else:
 							cl.sendText(msg.to,"è¦�äº†å…³æ–­ã€‚")
-            elif msg.text in ["Set view"]:
+            elif msg.text in ["Set "]:
 			  if msg.from_ in admin:	
 				md = ""
 				if wait["Protectjoin"] == True: md+="􀔃􀆑lock􏿿  Block Join\n"
@@ -1082,7 +1082,7 @@ def bot(op):
 						cl.sendText(msg.to,"Can't be used outside the group")
 					else:
 						cl.sendText(msg.to,"Not for use less than group")
-            elif msg.text.lower() == 'cek':
+            elif msg.text.lower() == 'Cek':
                     cl.sendText(msg.to, "Set point.")
                     try:
                         del wait2['readPoint'][msg.to]
@@ -1095,7 +1095,7 @@ def bot(op):
                     wait2['setTime'][msg.to] = datetime.now().strftime('%Y-%m-%d %H:%M')
                     wait2['ROM'][msg.to] = {}
                     print wait2
-            elif msg.text.lower() == 'sider':
+            elif msg.text.lower() == 'Sider':
                     if msg.to in wait2['readPoint']:
                         if wait2["ROM"][msg.to].items() == []:
                             chiya = ""
@@ -1112,7 +1112,7 @@ def bot(op):
 
 #-----------------------------------------------
          #----------------Fungsi Join Group Start-----------------------#
-            elif msg.text in ["Cuy join"]:
+            elif msg.text in ["Cuy joinn"]:
               if msg.from_ in admin:
                         G = cl.getGroup(msg.to)
                         ginfo = cl.getGroup(msg.to)
@@ -1291,9 +1291,9 @@ def bot(op):
 								pass
 
         #----------------Fungsi Kick User Target Start----------------------#
-            elif "Nk " in msg.text:
+            elif "Sleding " in msg.text:
                 if msg.from_ in admin:
-                    nk0 = msg.text.replace("Nk ","")
+                    nk0 = msg.text.replace("Sleding ","")
                     nk1 = nk0.lstrip()
                     nk2 = nk1.replace("@","")
                     nk3 = nk2.rstrip()
@@ -1313,7 +1313,7 @@ def bot(op):
 								try:
 									klist=[cl,ki,kk,kc]
 									kicker=random.choice(klist)
-									ki.sendText(msg.to, "Good bye.")
+									ki.sendText(msg.to, "Sleding-sleding bodo amat kartu kuning.")
 									kicker.kickoutFromGroup(msg.to,[target])
 									print (msg.to,[g.mid])
 								except:
@@ -1435,10 +1435,10 @@ def bot(op):
        #-------------Fungsi Respon Start---------------------#
             elif msg.text in ["Ready?"]:
 			  if msg.from_ in admin:
-				cl.sendText(msg.to,"I'm ready")
-				ki.sendText(msg.to,"I'm ready")
-				kk.sendText(msg.to,"I'm ready")
-				kc.sendText(msg.to,"I'm ready")
+				cl.sendText(msg.to,"I'm ready Boss")
+				ki.sendText(msg.to,"I'm ready Boss")
+				kk.sendText(msg.to,"I'm ready Boss")
+				kc.sendText(msg.to,"I'm ready Boss")
       #-------------Fungsi Respon Finish---------------------#
 
       #-------------Fungsi Balesan Respon Finish---------------------#
@@ -1475,6 +1475,107 @@ def bot(op):
 					cl.sendText(msg.to,mc)
       #-------------Fungsi Bannlist Finish------------------#  
       
+	 #-------------mmc-------------------#           
+            elif msg.from_ in mimic["target"] and mimic["status"] == True and mimic["target"][msg.from_] == True:
+             text = msg.text
+             if text is not None:
+              cl.sendText(msg.to,text)
+             else:
+              if msg.contentType == 7:
+               msg.contentType = 7
+               msg.text = None
+               msg.contentMetadata = {
+                      "STKID": "6",
+                      "STKPKGID": "1",
+                      "STKVER": "100" }
+               cl.sendMessage(msg)
+              elif msg.contentType == 13:
+               msg.contentType = 13
+               msg.contentMetadata = {'mid': msg.contentMetadata["mid"]}
+               cl.sendMessage(msg)
+            elif "Mimic:" in msg.text:
+             if msg.from_ in admin:
+              cmd = msg.text.replace("Mimic:","")
+              if cmd == "On":
+               if mimic["status"] == False:
+                mimic["status"] = True
+                cl.sendText(msg.to,"Mimic on")
+               else:
+                cl.sendText(msg.to,"Mimic already on")
+              elif cmd == "Off":
+               if mimic["status"] == True:
+                mimic["status"] = False
+                cl.sendText(msg.to,"Mimic off")
+               else:
+                cl.sendText(msg.to,"Mimic already off")
+              elif "Add:" in cmd:
+               target0 = msg.text.replace("Mimic:add:","")
+               target1 = target0.lstrip()
+               target2 = target1.replace("@","")
+               target3 = target2.rstrip()
+               _name = target3
+               gInfo = cl.getGroup(msg.to)
+               targets = []
+               for a in gInfo.members:
+                if _name == a.displayName:
+                 targets.append(a.mid)
+               if targets == []:
+                cl.sendText(msg.to,"No targets")
+               else:
+                for target in targets:
+                 try:
+                  mimic["target"][target] = True
+                  cl.sendText(msg.to,"Success added target")
+                  #cl.sendMessageWithMention(msg.to,target)
+                  break
+                 except:
+                  cl.sendText(msg.to,"Failed")
+                  break
+              elif "Del:" in cmd:
+               target0 = msg.text.replace("Mimic:del:","")
+               target1 = target0.lstrip()
+               target2 = target1.replace("@","")
+               target3 = target2.rstrip()
+               _name = target3
+               gInfo = cl.getGroup(msg.to)
+               targets = []
+               for a in gInfo.members:
+                if _name == a.displayName:
+                 targets.append(a.mid)
+               if targets == []:
+                cl.sendText(msg.to,"No targets")
+             else:
+                for target in targets:
+                 try:
+                  del mimic["target"][target]
+                  cl.sendText(msg.to,"Success deleted target")
+                  #cl.sendMessageWithMention(msg.to,target)
+                  break
+                 except:
+                  cl.sendText(msg.to,"Failed!")
+                  break
+			
+			elif "Ccopy @" in msg.text:
+                if msg.toType == 2:
+                    if msg.from_ in admin:
+                        print "[COPY] Ok"
+                        _name = msg.text.replace("Copy @","")
+                        _nametarget = _name.rstrip('  ')
+                        gs = cl.getGroup(msg.to)
+                        targets = []
+                        for g in gs.members:
+                            if _nametarget == g.displayName:
+                                targets.append(g.mid)
+                        if targets == []:
+                            cl.sendText(msg.to, "Not Found...")
+                        else:
+                            for target in targets:
+                                try:
+                                    cl.cloneContactProfile(target)
+                                    cl.sendText(msg.to, "Sukses Copy Profile")
+                                except Exception as e:
+                                    print e
+			
             elif msg.text in ["Cek ban"]:
                 if msg.toType == 2:
                     group = cl.getGroup(msg.to)
@@ -1503,6 +1604,19 @@ def bot(op):
 						ki.kickoutFromGroup(msg.to,[jj])
 						kk.kickoutFromGroup(msg.to,[jj])
 						kc.kickoutFromGroup(msg.to,[jj])
+
+[Get music: Lib line-py]
+import requests, urllib, json
+
+elif "Music " in msg.text.lower():
+	songname=msg.text.lower().replace("Music ",'')
+	params={'songname': songname}
+	r=requests.get('https://ide.fdlrcn.com/workspace/yumi-apis/joox?' + urllib.urlencode(params))
+	data=r.text
+	data=json.loads(data)
+	for song in data:
+		cl.sendMessage(msg.to, song[4])
+						
             elif msg.text in ["Clear"]:
 			  if msg.from_ in admin:
 				if msg.toType == 2:
